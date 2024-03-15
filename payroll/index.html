@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payroll Management</h1>
+
+    <form id="employeeForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" min="0" required>
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Employee data will be added dynamically here -->
+        </tbody>
+    </table>
+
+    <script>
+        const employeeForm = document.getElementById('employeeForm');
+        const employeeTable = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+
+        employeeForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const salary = parseFloat(document.getElementById('salary').value);
+
+            if (name.trim() !== '' && !isNaN(salary) && salary >= 0) {
+                addEmployee(name, salary);
+                clearForm();
+            } else {
+                alert('Please enter valid employee details.');
+            }
+        });
+
+        function addEmployee(name, salary) {
+            const newRow = employeeTable.insertRow();
+            const cellName = newRow.insertCell(0);
+            const cellSalary = newRow.insertCell(1);
+            const cellAction = newRow.insertCell(2);
+
+            cellName.textContent = name;
+            cellSalary.textContent = salary;
+            cellAction.innerHTML = '<button class="button" onclick="deleteEmployee(this)">Delete</button>';
+        }
+
+        function deleteEmployee(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('salary').value = '';
+        }
+    </script>
+</body>
+</html>

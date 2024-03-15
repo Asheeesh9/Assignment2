@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .subject-container {
+            margin-bottom: 20px;
+        }
+
+        .subject-container label,
+        .subject-container input[type="number"] {
+            width: 110px;
+            height: 25px;
+            margin: 3px auto ;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Grade Calculator</h1>
+
+    <div class="subject-container">
+        <label for="subject1">LAL: </label>
+        <input type="number" id="subject1" placeholder="Enter marks">
+        <input type="number" id="totalMarks1" placeholder="Total marks">
+    </div>
+
+    <div class="subject-container">
+        <label for="subject2">EP: </label>
+        <input type="number" id="subject2" placeholder="Enter marks">
+        <input type="number" id="totalMarks2" placeholder="Total marks">
+    </div>
+
+    <div class="subject-container">
+        <label for="subject3">PSP: </label>
+        <input type="number" id="subject3" placeholder="Enter marks">
+        <input type="number" id="totalMarks3" placeholder="Total marks">
+    </div>
+
+    <div class="subject-container">
+        <label for="subject4">FEE: </label>
+        <input type="number" id="subject4" placeholder="Enter marks">
+        <input type="number" id="totalMarks4" placeholder="Total marks">
+    </div>
+
+    <button onclick="calculateGrade()">Calculate Grade</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateGrade() {
+            const subjects = [];
+            let totalObtained = 0;
+            let totalMarks = 0;
+
+            for (let i = 1; i <= 4; i++) {
+                const subjectMarks = parseFloat(document.getElementById(`subject${i}`).value);
+                const subjectTotalMarks = parseFloat(document.getElementById(`totalMarks${i}`).value);
+
+                if (isNaN(subjectMarks) || isNaN(subjectTotalMarks) || subjectMarks < 0 || subjectTotalMarks <= 0) {
+                    alert(`Please enter valid numbers for subject ${i} marks and total marks.`);
+                    return;
+                }
+
+                subjects.push({
+                    marks: subjectMarks,
+                    totalMarks: subjectTotalMarks
+                });
+
+                totalObtained += subjectMarks;
+                totalMarks += subjectTotalMarks;
+            }
+
+            const percentage = (totalObtained / totalMarks) * 100;
+            let grade;
+
+            if (percentage >= 90) {
+                grade = 'A+';
+            } else if (percentage >= 80) {
+                grade = 'A';
+            } else if (percentage >= 70) {
+                grade = 'B';
+            } else if (percentage >= 60) {
+                grade = 'C';
+            } else if (percentage >= 50) {
+                grade = 'D';
+            } else {
+                grade = 'F';
+            }
+
+            document.getElementById('result').innerText = `Percentage: ${percentage.toFixed(2)}%, Grade: ${grade}`;
+        }
+    </script>
+</body>
+</html>
